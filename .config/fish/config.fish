@@ -12,6 +12,19 @@ set -gx VISUAL nvim
 set -gx PATH $HOME/.local/bin /usr/local/bin $PATH
 
 ## ------------------------------------------------------------------------
+## Themes
+## ------------------------------------------------------------------------
+# Source fish theme if it exists
+if test -f ~/.config/fish/themes/tokyonight_night.fish
+    source ~/.config/fish/themes/tokyonight_night.fish
+end
+
+# Source FZF theme if it exists
+if test -f ~/.config/fzf/themes/tokyonight_night.fish
+    source ~/.config/fzf/themes/tokyonight_night.fish
+end
+
+## ------------------------------------------------------------------------
 ## General : Aliases & Abbreviations
 ## ------------------------------------------------------------------------
 
@@ -32,6 +45,14 @@ alias lt='eza --icons=auto --tree' # list folder as tree
 alias nv="nvim"
 alias vim="nvim"
 
+# Utility aliases
+alias ff="fastfetch"
+alias cpa="cat" # On server, use cat to display file contents (no clipboard)
+# For copying file contents on server, you could use:
+# cat file.txt | ssh local_machine pbcopy (if copying to local Mac)
+# Or install xclip: sudo apt install xclip
+# Then: alias cpa="xclip -selection clipboard <"
+
 # Server-specific aliases
 alias nginx-reload="sudo systemctl reload nginx"
 alias nginx-restart="sudo systemctl restart nginx"
@@ -42,7 +63,15 @@ alias logs-nginx="sudo tail -f /var/log/nginx/error.log"
 alias logs-php="sudo tail -f /var/log/php8.3-fpm.log"
 alias perf="sudo /usr/local/bin/check-performance.sh"
 
+# Git aliases
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git log --oneline"
+
 # System monitoring
+alias htop="btop"
 alias df="df -h"
 alias du="du -h"
 alias free="free -h"
