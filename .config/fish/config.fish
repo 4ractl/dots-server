@@ -42,15 +42,7 @@ alias logs-nginx="sudo tail -f /var/log/nginx/error.log"
 alias logs-php="sudo tail -f /var/log/php8.3-fpm.log"
 alias perf="sudo /usr/local/bin/check-performance.sh"
 
-# Git aliases
-alias gs="git status"
-alias ga="git add"
-alias gc="git commit"
-alias gp="git push"
-alias gl="git log --oneline"
-
 # System monitoring
-alias htop="btop"
 alias df="df -h"
 alias du="du -h"
 alias free="free -h"
