@@ -1,6 +1,6 @@
 #!/bin/bash
 # dots-server install script for Ubuntu 24.04 servers
-# Sets up Bash (not ZSH) with all configurations
+# Sets up Bash with all configurations
 
 set -e
 
@@ -34,7 +34,7 @@ mkdir -p ~/.config
 mkdir -p ~/.local/bin
 mkdir -p ~/.cache
 
-# Link Bash configuration (NOT ZSH)
+# Link Bash configuration
 log_message "Setting up Bash configuration..."
 if [[ -f ~/.bashrc ]]; then
   log_message "Backing up existing .bashrc to .bashrc.backup"
@@ -73,17 +73,11 @@ if [[ -f "$DOTS_DIR/.gitconfig" ]]; then
   ln -sf "$DOTS_DIR/.gitconfig" ~/.gitconfig
 fi
 
-# Link other config directories (excluding ZSH)
+# Link other config directories
 log_message "Linking other configurations..."
 for config_dir in "$DOTS_DIR"/.config/*; do
   if [[ -d "$config_dir" ]]; then
     config_name=$(basename "$config_dir")
-
-    # Skip ZSH-related configs
-    if [[ "$config_name" == "zsh" ]] || [[ "$config_name" == "oh-my-zsh" ]]; then
-      log_message "Skipping ZSH config: $config_name"
-      continue
-    fi
 
     # Skip already handled configs
     if [[ "$config_name" == "nvim" ]] || [[ "$config_name" == "starship" ]]; then
@@ -171,19 +165,5 @@ echo "  ll    - List files with icons"
 echo "  nv    - Open Neovim"
 echo "  perf  - Check server performance"
 echo ""
-
-# Final check for ZSH removal
-if [[ -f ~/.zshrc ]] || [[ -d ~/.oh-my-zsh ]]; then
-  echo -e "${YELLOW}Found ZSH configuration files:${NC}"
-  [[ -f ~/.zshrc ]] && echo "  ~/.zshrc"
-  [[ -d ~/.oh-my-zsh ]] && echo "  ~/.oh-my-zsh/"
-  echo ""
-  read -p "Would you like to remove ZSH configurations? (y/n): " -r
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    [[ -f ~/.zshrc ]] && mv ~/.zshrc ~/.zshrc.old && echo "Moved ~/.zshrc to ~/.zshrc.old"
-    [[ -d ~/.oh-my-zsh ]] && mv ~/.oh-my-zsh ~/.oh-my-zsh.old && echo "Moved ~/.oh-my-zsh to ~/.oh-my-zsh.old"
-    echo -e "${GREEN}ZSH configurations backed up${NC}"
-  fi
-fi
 
 log_message "Installation complete!"
